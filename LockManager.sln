@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockManager.WebApi", "LockManager\LockManager.WebApi.csproj", "{ABF68D68-8DF3-4E21-9CC1-C58C21FD9E2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockManager.WebApi", "LockManager\LockManager.WebApi.csproj", "{ABF68D68-8DF3-4E21-9CC1-C58C21FD9E2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockManager.Application", "LockManager.Application\LockManager.Application.csproj", "{81CDECBB-6A17-41D7-A68A-00FF33E7D2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockManager.Application", "LockManager.Application\LockManager.Application.csproj", "{81CDECBB-6A17-41D7-A68A-00FF33E7D2E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockManager.Infrastructure", "LockManager.Infrastructure\LockManager.Infrastructure.csproj", "{3942C198-F3B5-43E5-AC37-1D8A1323FF5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockManager.Infrastructure", "LockManager.Infrastructure\LockManager.Infrastructure.csproj", "{3942C198-F3B5-43E5-AC37-1D8A1323FF5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockManager.UnitTests", "LockManager.UnitTests\LockManager.UnitTests.csproj", "{ACDEBE2F-F033-40FE-80FC-B340FDBAE312}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockManager.UnitTests", "LockManager.UnitTests\LockManager.UnitTests.csproj", "{ACDEBE2F-F033-40FE-80FC-B340FDBAE312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockManager.Domain", "LockManager.Domain\LockManager.Domain.csproj", "{FD127607-6F06-497E-94F8-985FE40D7A74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{74BED32D-5D7E-46A4-856E-E746835F3F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,16 @@ Global
 		{ACDEBE2F-F033-40FE-80FC-B340FDBAE312}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACDEBE2F-F033-40FE-80FC-B340FDBAE312}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACDEBE2F-F033-40FE-80FC-B340FDBAE312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD127607-6F06-497E-94F8-985FE40D7A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD127607-6F06-497E-94F8-985FE40D7A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD127607-6F06-497E-94F8-985FE40D7A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD127607-6F06-497E-94F8-985FE40D7A74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACDEBE2F-F033-40FE-80FC-B340FDBAE312} = {74BED32D-5D7E-46A4-856E-E746835F3F4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {977FAFEF-FD88-4130-97ED-F303A87F48FB}
