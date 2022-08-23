@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LockManager.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace LockManager.Infrastructure.DB.Context
 {
-    public class LockManagerDbContext : DbContext
+    public partial class LockManagerDbContext : DbContext
     {
         private readonly string DBConnectionString;
 
@@ -16,6 +17,10 @@ namespace LockManager.Infrastructure.DB.Context
         {
             DBConnectionString = configuration.GetConnectionString("SqlConnectionString");
         }
+
+        public virtual DbSet<Door> Door { get; set; } = null!;
+        public virtual DbSet<User> User { get; set; } = null!;
+        public virtual DbSet<UserAuth> UserAuth { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,6 +36,6 @@ namespace LockManager.Infrastructure.DB.Context
             OnModelCreatingPartial(modelBuilder);
         }
 
-        public void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
