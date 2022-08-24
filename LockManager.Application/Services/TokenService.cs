@@ -2,17 +2,17 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using LockManager.Domain.Auth;
-using LockManager.Domain.Entities;
+using LockManager.Domain.Models.Dto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LockManager.Infrastructure.Token
+namespace LockManager.Application.Services
 {
-    public class TokenManager : ITokenManager
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
 
-        public TokenManager(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -29,16 +29,7 @@ namespace LockManager.Infrastructure.Token
             return refreshToken;
         }
 
-        public void SetRefreshToken(UserAuth user)
-        {
-            var newRefreshToken = GenerateRefreshToken();
-
-            user.RefreshToken = newRefreshToken.Token;
-            user.TokenCreated = newRefreshToken.Created;
-            user.TokenExpires = newRefreshToken.Expires;
-        }
-
-        public string CreateToken(User user)
+        public string CreateToken(UserDto user)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -67,15 +58,6 @@ namespace LockManager.Infrastructure.Token
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
             }
         }
     }
