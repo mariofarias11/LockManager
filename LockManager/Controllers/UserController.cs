@@ -23,9 +23,10 @@ namespace LockManager.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPatch]
-        public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
+        [HttpPatch, Route("{id:min(1)}")]
+        public async Task<ActionResult<UserDto>> UpdateUser([FromRoute] int id, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
         {
+            command.Id = id;
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);
         }
