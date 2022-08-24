@@ -21,7 +21,7 @@ namespace LockManager.WebApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<bool>> Register(RegisterUserCommand command, CancellationToken cancellationToken)
         {
-            var user = await _mediator.Send(new GetUserRequest { Username = command.Username});
+            var user = await _mediator.Send(new GetUserQuery { Username = command.Username});
             if (user is null)
             {
                 return BadRequest($"User {command.Username} not found");
@@ -34,7 +34,7 @@ namespace LockManager.WebApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginDto dto, CancellationToken cancellationToken)
         {
-            var user = await _mediator.Send(new GetUserRequest { Username = dto.Username }, cancellationToken);
+            var user = await _mediator.Send(new GetUserQuery { Username = dto.Username }, cancellationToken);
 
             if (user is null)
             {
@@ -61,7 +61,7 @@ namespace LockManager.WebApi.Controllers
         public async Task<ActionResult<string>> RefreshToken(CancellationToken cancellationToken)
         {
             var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
-            var user = await _mediator.Send(new GetUserRequest { Username = username }, cancellationToken);
+            var user = await _mediator.Send(new GetUserQuery { Username = username }, cancellationToken);
 
             if (user is null)
             {
