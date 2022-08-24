@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using LockManager.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using LockManager.Domain.Auth.Dto;
 using LockManager.Domain.Models.Command;
@@ -11,12 +10,10 @@ namespace LockManager.WebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ITokenService _tokenService;
         private readonly IMediator _mediator;
 
-        public AuthController(ITokenService tokenService, IMediator mediator)
+        public AuthController(IMediator mediator)
         {
-            _tokenService = tokenService;
             _mediator = mediator;
         }
 
