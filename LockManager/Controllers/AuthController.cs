@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using LockManager.Domain.Models.Command;
-using LockManager.Domain.Models.Dto;
 using LockManager.Domain.Models.Request;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,9 +31,9 @@ namespace LockManager.WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<string>> Login(LoginRequest request, CancellationToken cancellationToken)
         {
-            var user = await _mediator.Send(new GetUserQuery { Username = dto.Username }, cancellationToken);
+            var user = await _mediator.Send(new GetUserQuery { Username = request.Username }, cancellationToken);
 
             if (user is null)
             {
@@ -44,8 +43,8 @@ namespace LockManager.WebApi.Controllers
             var command = new LoginCommand
             {
                 User = user,
-                Username = dto.Username,
-                Password = dto.Password
+                Username = request.Username,
+                Password = request.Password
             };
 
             var result = await _mediator.Send(command, cancellationToken);
