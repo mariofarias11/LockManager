@@ -10,10 +10,11 @@ namespace LockManager.Infrastructure.DB.Configuration
         {
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.Username, "IX_Username");
+            entity.HasIndex(e => e.Username, "IX_Username").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("Id");
             entity.Property(e => e.Active).HasColumnName("Active");
+            entity.Property(e => e.Username).HasColumnName("Username");
             entity.Property(e => e.Role).HasConversion<int>().HasColumnName("Role");
         }
     }
