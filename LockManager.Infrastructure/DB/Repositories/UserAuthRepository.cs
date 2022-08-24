@@ -27,9 +27,28 @@ namespace LockManager.Infrastructure.DB.Repositories
             return true;
         }
 
+        public async Task<bool> UpdateUserAuth(UpdateUserAuthInput input, CancellationToken cancellationToken)
+        {
+            var userAuth = new UserAuth
+            {
+                Id = input.Id,
+                Username = input.Username,
+                PasswordHash = input.PasswordHash,
+                PasswordSalt = input.PasswordSalt,
+                TokenCreated = input.TokenCreated,
+                TokenExpires = input.TokenExpires
+            };
+
+            Context.UserAuth.Update(userAuth);
+            await Context.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
         public async Task<UserAuth> GetUserAuthByUsername(string username)
         {
-            var userAuth = await Context.UserAuth.FirstOrDefaultAsync(x => x.Username == username);
+            var userAuth = await Context.UserAuth.AsNoTracking().FirstOrDefaultAsync(x => x.Username == username);
+
             return userAuth;
         }
     }

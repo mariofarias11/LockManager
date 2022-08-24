@@ -1,6 +1,7 @@
 ﻿using LockManager.Application.Repositories;
 using LockManager.Application.Services;
 using LockManager.Domain.Models.Command;
+using LockManager.Domain.Models.Input;
 using MediatR;
 
 namespace LockManager.Application.Handlers
@@ -27,6 +28,9 @@ namespace LockManager.Application.Handlers
 
             var refreshToken = _tokenService.GenerateRefreshToken();
             userAuth.SetRefreshToken(refreshToken);
+
+            var updateUserAuthInput = new UpdateUserAuthInput(userAuth);
+            await _userAuthRepository.UpdateUserAuth(updateUserAuthInput, cancellationToken);
 
             string token = _tokenService.CreateToken(command.User);
             return token;

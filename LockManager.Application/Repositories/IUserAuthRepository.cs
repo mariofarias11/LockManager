@@ -7,5 +7,6 @@ namespace LockManager.Application.Repositories
     {
         Task<bool> CreateUserAuth(CreateUserAuthInput input, CancellationToken cancellationToken);
         Task<UserAuth> GetUserAuthByUsername(string username);
+        Task<bool> UpdateUserAuth(UpdateUserAuthInput input, CancellationToken cancellationToken);
     }
 }

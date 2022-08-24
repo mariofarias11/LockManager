@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using LockManager.Domain.Models.Command;
+using LockManager.Domain.Models.Dto;
 using LockManager.Domain.Models.Request;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LockManager.WebApi.Controllers
 {
@@ -30,17 +32,22 @@ namespace LockManager.WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<string>> Login(LoginDto dto, CancellationToken cancellationToken)
         {
-            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-            var user = await _mediator.Send(new GetUserRequest { Username = username?.Value }, cancellationToken);
+            var user = await _mediator.Send(new GetUserRequest { Username = dto.Username }, cancellationToken);
 
             if (user is null)
             {
                 return BadRequest("User not found.");
             }
 
-            command.User = user;
+            var command = new LoginCommand
+            {
+                User = user,
+                Username = dto.Username,
+                Password = dto.Password
+            };
+
             var result = await _mediator.Send(command, cancellationToken);
             if (string.IsNullOrEmpty(result))
             {
@@ -50,11 +57,11 @@ namespace LockManager.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("refresh-token")]
+        [HttpPost("refresh-token"), Authorize]
         public async Task<ActionResult<string>> RefreshToken(CancellationToken cancellationToken)
         {
-            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
-            var user = await _mediator.Send(new GetUserRequest { Username = username?.Value }, cancellationToken);
+            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var user = await _mediator.Send(new GetUserRequest { Username = username }, cancellationToken);
 
             if (user is null)
             {
