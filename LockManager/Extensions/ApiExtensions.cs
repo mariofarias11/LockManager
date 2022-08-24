@@ -11,10 +11,12 @@ namespace LockManager.WebApi.Extensions
         {
             services.AddMediatR(typeof(CreateUserCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(UpdateUserCommandHandler).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(GetUserRequestHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetUserQueryHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RegisterUserCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(LoginCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RefreshTokenCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(CreateDoorCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(UpdateDoorOpennessCommandHandler).GetTypeInfo().Assembly);
             services.AddScoped<IMediator, Mediator>();
 
             return services;
