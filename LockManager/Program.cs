@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddRepositories();
+builder.Services.AddServices();
 builder.Services.AddMediator();
 builder.Services.ConfigureDBContext(builder.Configuration);
 
