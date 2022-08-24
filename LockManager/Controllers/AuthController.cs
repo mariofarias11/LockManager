@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using LockManager.Domain.Auth.Dto;
 using LockManager.Domain.Models.Command;
 using LockManager.Domain.Models.Request;
 using MediatR;
@@ -18,7 +17,7 @@ namespace LockManager.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserAuthDto>> Register(RegisterUserCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<bool>> Register(RegisterUserCommand command, CancellationToken cancellationToken)
         {
             var user = await _mediator.Send(new GetUserRequest { Username = command.Username});
             if (user is null)
@@ -26,7 +25,7 @@ namespace LockManager.WebApi.Controllers
                 return BadRequest($"User {command.Username} not found");
             }
 
-            var result = _mediator.Send(command, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);
         }
 
