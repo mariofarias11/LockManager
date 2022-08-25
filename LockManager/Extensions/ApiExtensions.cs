@@ -17,6 +17,7 @@ namespace LockManager.WebApi.Extensions
             services.AddMediatR(typeof(RefreshTokenCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(CreateDoorCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(UpdateDoorOpennessCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetDoorHistoryQueryHandler).GetTypeInfo().Assembly);
             services.AddScoped<IMediator, Mediator>();
 
             return services;

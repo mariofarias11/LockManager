@@ -2,6 +2,7 @@
 using LockManager.Domain.Models;
 using LockManager.Domain.Models.Command;
 using LockManager.Domain.Models.Dto;
+using LockManager.Domain.Models.Query;
 using LockManager.Domain.Models.Request;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +33,23 @@ namespace LockManager.WebApi.Controllers
             }
 
             var result = await _mediator.Send(command, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet, Route("{id}:min(1)/entry-history"), Authorize]
+        public async Task<IActionResult> GetDoorHistoryEvents([FromRoute] int id, CancellationToken cancellationToken)
+        {
+            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var user = await _mediator.Send(new GetUserQuery { Username = username }, cancellationToken);
+
+            if (user is null || user.Role < Role.Admin || !user.Active)
+            {
+                return Unauthorized("This user can not access door's entry history");
+            }
+
+            var query = new GetDoorHistoryQuery { DoorId = id };
+            var result = await _mediator.Send(query, cancellationToken);
+
             return Ok(result);
         }
 
