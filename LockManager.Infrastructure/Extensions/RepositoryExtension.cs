@@ -11,6 +11,7 @@ namespace LockManager.Infrastructure.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAuthRepository, UserAuthRepository>();
             services.AddScoped<IDoorRepository, DoorRepository>();
+            services.AddScoped<IDoorHistoryRepository, DoorHistoryRepository>();
 
             return services;
         }
