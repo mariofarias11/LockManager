@@ -7,5 +7,6 @@ namespace LockManager.Domain.Entities
         public int Id { get; set; }
         public bool Open { get; set; }
         public Role MinimumRoleAuthorized { get; set; }
+        public virtual ICollection<DoorHistory> DoorHistoryList { get; set; }
     }
 }

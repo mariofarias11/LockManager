@@ -4,6 +4,7 @@ using LockManager.Infrastructure.DB.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LockManager.Infrastructure.Migrations
 {
     [DbContext(typeof(LockManagerDbContext))]
-    partial class LockManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220825003834_door-history")]
+    partial class doorhistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
