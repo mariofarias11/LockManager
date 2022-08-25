@@ -15,28 +15,28 @@ namespace LockManager.Application.Handlers
             _doorRepository = doorRepository;
         }
 
-        public async Task<DoorDto> Handle(UpdateDoorOpennessCommand opennessCommand, CancellationToken cancellationToken)
+        public async Task<DoorDto> Handle(UpdateDoorOpennessCommand command, CancellationToken cancellationToken)
         {
-            var door = await _doorRepository.GetDoorById(opennessCommand.Id);
+            var door = await _doorRepository.GetDoorById(command.Id);
 
             if (door == null)
             {
                 return null;
             }
 
-            if (door.MinimumRoleAuthorized > opennessCommand.User.Role)
+            if (door.MinimumRoleAuthorized > command.User.Role)
             {
                 //save history
                 return new DoorDto
                 {
-                    UnauthorizedMessage = "This user do not have permission to open this door"
+                    UnauthorizedMessage = $"User {command.User.Id} do not have permission to open this door"
                 };
             }
 
             var input = new UpdateDoorInput
             {
                 Id = door.Id,
-                Open = opennessCommand.Open,
+                Open = command.Open,
                 MinimumRoleAuthorized = door.MinimumRoleAuthorized
             };
             var entity = await _doorRepository.UpdateDoor(input, cancellationToken);
