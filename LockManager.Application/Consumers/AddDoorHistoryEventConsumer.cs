@@ -1,13 +1,30 @@
-﻿using LockManager.Domain.Models.Event;
+﻿using LockManager.Application.Repositories;
+using LockManager.Domain.Models.Event;
+using LockManager.Domain.Models.Input;
 using MassTransit;
 
 namespace LockManager.Application.Consumers
 {
     public class AddDoorHistoryEventConsumer : IConsumer<AddDoorHistoryEvent>
     {
-        public Task Consume(ConsumeContext<AddDoorHistoryEvent> context)
+        private readonly IDoorHistoryRepository _doorHistoryRepository;
+
+        public AddDoorHistoryEventConsumer(IDoorHistoryRepository doorHistoryRepository)
         {
-            throw new NotImplementedException();
+            _doorHistoryRepository = doorHistoryRepository;
+        }
+
+        public async Task Consume(ConsumeContext<AddDoorHistoryEvent> context)
+        {
+            var input = new AddDoorHistoryInput
+            {
+                UserId = context.Message.UserId,
+                DoorId = context.Message.UserId,
+                EntryDateTime = context.Message.EntryDateTime,
+                IsSuccessfulEntry = context.Message.IsSuccessfulEntry
+            };
+
+            await _doorHistoryRepository.AddDoorHistory(input, context.CancellationToken);
         }
     }
 }

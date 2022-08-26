@@ -1,6 +1,6 @@
-﻿namespace LockManager.Domain.Models.Event
+﻿namespace LockManager.Domain.Models.Input
 {
-    public class AddDoorHistoryEvent
+    public class AddDoorHistoryInput
     {
         public int UserId { get; set; }
         public bool IsSuccessfulEntry { get; set; }
