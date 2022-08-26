@@ -4,6 +4,7 @@ using LockManager.Domain.Models;
 using LockManager.Domain.Models.Command;
 using LockManager.Domain.Models.Dto;
 using LockManager.Domain.Models.Input;
+using MassTransit;
 using Moq;
 
 namespace LockManager.UnitTests.Door
@@ -12,10 +13,12 @@ namespace LockManager.UnitTests.Door
     {
         private readonly Mock<IDoorRepository> _doorRepository;
         private readonly CancellationToken _cancellationToken;
+        private readonly Mock<IBus> _bus;
 
         public DoorTests()
         {
             _doorRepository = new Mock<IDoorRepository>();
+            _bus = new Mock<IBus>();
             _cancellationToken = new CancellationToken();
         }
 
@@ -65,7 +68,7 @@ namespace LockManager.UnitTests.Door
                 Open = true,
                 User = CreateUserDto(Role.Manager)
             };
-            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object);
+            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object, _bus.Object);
 
             //Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -91,7 +94,7 @@ namespace LockManager.UnitTests.Door
                 Open = true,
                 User = CreateUserDto(Role.Employee)
             };
-            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object);
+            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object, _bus.Object);
 
             //Act
             var result = await handler.Handle(command, _cancellationToken);
@@ -116,7 +119,7 @@ namespace LockManager.UnitTests.Door
                 Open = true,
                 User = CreateUserDto(Role.Manager)
             };
-            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object);
+            var handler = new UpdateDoorOpennessCommandHandler(_doorRepository.Object, _bus.Object);
 
             //Act
             var result = await handler.Handle(command, _cancellationToken);
