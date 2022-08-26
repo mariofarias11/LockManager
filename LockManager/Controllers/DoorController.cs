@@ -54,7 +54,7 @@ namespace LockManager.WebApi.Controllers
         }
 
         [HttpPatch, Route("{id}:min(1)/openness"), Authorize]
-        public async Task<ActionResult<DoorDto>> UpdateDoorOpennessRequest([FromRoute] int id, [FromBody] UpdateDoorOpennessRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<DoorDto>> UpdateDoorOpenness([FromRoute] int id, [FromBody] UpdateDoorOpennessRequest request, CancellationToken cancellationToken)
         {
             var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
             var user = await _mediator.Send(new GetUserQuery { Username = username }, cancellationToken);
@@ -100,8 +100,7 @@ namespace LockManager.WebApi.Controllers
             var command = new UpdateMinimumRoleAuthorizedToOpenDoorCommand
             {
                 Id = id,
-                MinimumRoleAuthorized = request.MinimumRoleAuthorized,
-                User = user
+                MinimumRoleAuthorized = request.MinimumRoleAuthorized
             };
 
             var result = await _mediator.Send(command, cancellationToken);

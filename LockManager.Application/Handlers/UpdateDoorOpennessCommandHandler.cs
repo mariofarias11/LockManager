@@ -29,7 +29,7 @@ namespace LockManager.Application.Handlers
                 //save history
                 return new DoorDto
                 {
-                    UnauthorizedMessage = $"User {command.User.Id} do not have permission to open this door"
+                    UnauthorizedMessage = $"User {command.User.Id} do not have permission to open door {command.Id}"
                 };
             }
 

@@ -9,6 +9,10 @@ namespace LockManager.Domain.Models.Dto
         public bool Active { get; set; }
         public string Username { get; set; }
 
+        public UserDto()
+        {
+        }
+
         public UserDto(User user)
         {
             Id = user.Id;
