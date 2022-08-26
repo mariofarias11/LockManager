@@ -36,7 +36,7 @@ namespace LockManager.WebApi.Controllers
         }
 
         [HttpPatch, Route("{id:min(1)}"), Authorize]
-        public async Task<ActionResult<UserDto>> UpdateUser([FromRoute] int id, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<UserDto>> UpdateUser([FromRoute] int id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
         {
             var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
             var user = await _mediator.Send(new GetUserQuery { Username = username }, cancellationToken);
@@ -46,7 +46,12 @@ namespace LockManager.WebApi.Controllers
                 return Unauthorized();
             }
 
-            command.Id = id;
+            var command = new UpdateUserCommand
+            {
+                Id = id,
+                Role = request.Role,
+                Active = request.Active
+            };
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);
         }
