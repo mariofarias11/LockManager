@@ -13,6 +13,7 @@ namespace LockManager.Infrastructure.Extensions
                 x.AddConsumers();
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.ConfigureEndpoints(context);
                     cfg.Host("localhost", "/", h =>
                     {
                         h.Username("guest");
