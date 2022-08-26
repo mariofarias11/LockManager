@@ -19,7 +19,7 @@ namespace LockManager.Application.Consumers
             var input = new AddDoorHistoryInput
             {
                 UserId = context.Message.UserId,
-                DoorId = context.Message.UserId,
+                DoorId = context.Message.DoorId,
                 EntryDateTime = context.Message.EntryDateTime,
                 IsSuccessfulEntry = context.Message.IsSuccessfulEntry
             };
