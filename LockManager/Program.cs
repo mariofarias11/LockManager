@@ -2,6 +2,7 @@ using System.Text;
 using FluentValidation;
 using LockManager.Infrastructure.Extensions;
 using LockManager.WebApi.Extensions;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,6 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+builder.Services.ConfigureMassTransit();
 
 var app = builder.Build();
 
