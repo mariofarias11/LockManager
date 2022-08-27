@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.ConfigureMassTransit();
+builder.Services.ConfigureMassTransit(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,23 +1,26 @@
 ﻿using LockManager.Application.Consumers;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LockManager.Infrastructure.Extensions
 {
     public static class RabbitExtension
     {
-        public static IServiceCollection ConfigureMassTransit(this IServiceCollection services)
+        public static IServiceCollection ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
+            var rabbit = configuration.GetSection("AppSettings:RabbitMq");
+
             services.AddMassTransit(x =>
             {
                 x.AddConsumers();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.ConfigureEndpoints(context);
-                    cfg.Host("localhost", "/", h =>
+                    cfg.Host(rabbit["Host"], rabbit["VirtualHost"], h =>
                     {
-                        h.Username("guest");
-                        h.Password("guest");
+                        h.Username(rabbit["Username"]);
+                        h.Password(rabbit["Password"]);
                     });
                 });
             });
