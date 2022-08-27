@@ -3,6 +3,7 @@ using LockManager.Application.Repositories;
 using LockManager.Domain.Models;
 using LockManager.Domain.Models.Command;
 using LockManager.Domain.Models.Dto;
+using LockManager.Domain.Models.Event;
 using LockManager.Domain.Models.Input;
 using MassTransit;
 using Moq;
@@ -76,6 +77,7 @@ namespace LockManager.UnitTests.Door
             //Assert
             _doorRepository.Verify(x => x.GetDoorById(It.IsAny<int>()), Times.Once());
             _doorRepository.Verify(x => x.UpdateDoor(It.IsAny<UpdateDoorInput>(), It.IsAny<CancellationToken>()), Times.Once());
+            _bus.Verify(x => x.Publish(It.IsAny<AddDoorHistoryEvent>(), It.IsAny<CancellationToken>()), Times.Once());
             Assert.Equal(result.Id, door.Id);
             Assert.Equal(result.MinimumRoleAuthorized, door.MinimumRoleAuthorized);
             Assert.Equal(result.Open, updatedDoor.Open);
@@ -100,6 +102,9 @@ namespace LockManager.UnitTests.Door
             var result = await handler.Handle(command, _cancellationToken);
 
             //Assert
+            _doorRepository.Verify(x => x.GetDoorById(It.IsAny<int>()), Times.Once());
+            _doorRepository.Verify(x => x.UpdateDoor(It.IsAny<UpdateDoorInput>(), It.IsAny<CancellationToken>()), Times.Never());
+            _bus.Verify(x => x.Publish(It.IsAny<AddDoorHistoryEvent>(), It.IsAny<CancellationToken>()), Times.Once());
             Assert.Equal($"User {command.User.Id} do not have permission to open door {command.Id}", result.UnauthorizedMessage);
             Assert.False(result.Open);
             Assert.Equal(Role.None, result.MinimumRoleAuthorized);
@@ -127,6 +132,7 @@ namespace LockManager.UnitTests.Door
             //Assert
             _doorRepository.Verify(x => x.GetDoorById(It.IsAny<int>()), Times.Once());
             _doorRepository.Verify(x => x.UpdateDoor(It.IsAny<UpdateDoorInput>(), It.IsAny<CancellationToken>()), Times.Never());
+            _bus.Verify(x => x.Publish(It.IsAny<AddDoorHistoryEvent>(), It.IsAny<CancellationToken>()), Times.Never());
             Assert.Null(result);
         }
 
