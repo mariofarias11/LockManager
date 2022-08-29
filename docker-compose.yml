@@ -1,16 +1,6 @@
 version : '3'
  
 services:
-  lockmanagerapi:
-    image: mariofarias11/lockmanagerapi
-    ports:
-      - 8082:8080
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
-      - ASPNETCORE_URLS=http://*:8080
-    networks:
-      - lockmanager
-      
   rabbitmq:
     image: rabbitmq:3-management
     container_name: 'rabbitmq'
@@ -31,6 +21,8 @@ services:
         ACCEPT_EULA: "Y"
     networks:
       - lockmanager
+    ports:
+      - 1433:1433
 
 networks:
   lockmanager:
