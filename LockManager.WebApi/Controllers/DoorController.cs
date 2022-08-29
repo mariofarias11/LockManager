@@ -21,6 +21,21 @@ namespace LockManager.WebApi.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet, Authorize]
+        public async Task<ActionResult<IEnumerable<DoorDto>>> GetDoors(CancellationToken cancellationToken)
+        {
+            var username = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            var user = await _mediator.Send(new GetUserQuery { Username = username }, cancellationToken);
+
+            if (user is null || user.Role < Role.Admin || !user.Active)
+            {
+                return Unauthorized("This user can not get doors");
+            }
+
+            var result = await _mediator.Send(new GetDoorsQuery(), cancellationToken);
+            return Ok(result);
+        }
+
         [HttpPost, Authorize]
         public async Task<IActionResult> CreateDoor([FromBody] CreateDoorCommand command, CancellationToken cancellationToken)
         {

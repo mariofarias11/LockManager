@@ -47,5 +47,11 @@ namespace LockManager.Infrastructure.DB.Repositories
 
             return door;
         }
+
+        public async Task<IEnumerable<Door>> GetDoors()
+        {
+            var doors = await Context.Door.AsNoTracking().ToListAsync();
+            return doors;
+        }
     }
 }
