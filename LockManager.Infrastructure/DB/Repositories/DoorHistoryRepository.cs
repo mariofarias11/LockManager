@@ -23,7 +23,7 @@ namespace LockManager.Infrastructure.DB.Repositories
             var doorHistory = new DoorHistory
             {
                 UserId = input.UserId,
-                DoorId = input.UserId,
+                DoorId = input.DoorId,
                 EntryDateTime = input.EntryDateTime,
                 IsSuccessfulEntry = input.IsSuccessfulEntry
             };
