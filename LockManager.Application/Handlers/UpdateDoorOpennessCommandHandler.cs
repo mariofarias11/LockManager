@@ -45,7 +45,10 @@ namespace LockManager.Application.Handlers
             };
             var entity = await _doorRepository.UpdateDoor(input, cancellationToken);
 
-            await PublishAddDoorHistoryEvent(true, door.Id, command.User.Id);
+            if (command.Open)
+            {
+                await PublishAddDoorHistoryEvent(true, door.Id, command.User.Id);
+            }
 
             return new DoorDto(entity);
         }
